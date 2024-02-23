@@ -45,7 +45,7 @@ class DBStorage:
             for obj in all_obj:
                 key = '{}.{}'.format(type(obj).__name__, obj.id)
                 dictionary[key] = obj
-            retuurn dictionary
+            return dictionary
 
     def new(self, obj):
         """add the object to the current database
