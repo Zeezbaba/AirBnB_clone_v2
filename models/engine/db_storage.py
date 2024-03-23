@@ -100,3 +100,7 @@ class DBStorage:
                    "Place": Place,
                    "Review": Review}
         return classes
+
+    def close(self):
+        """close the current session"""
+        self.__session.remove()
