@@ -95,7 +95,7 @@ class DBStorage:
         from models.place import Place
         from models.review import Review
 
-        classes = {"Basemodel": Basemodel,
+        classes = {"BaseModel": BaseModel,
                    "User": User,
                    "State": State,
                    "City": City,
