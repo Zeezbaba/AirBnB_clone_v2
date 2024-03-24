@@ -81,9 +81,9 @@ class DBStorage:
         from models.review import Review
 
         Base.metadata.create_all(self.__engine)
-
-        Session = scoped_session(self.__session)
-        self.__session = Session()
+        sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        Session = scoped_session(sess_factory)
+        self.__session = Session
 
     def classes(self):
         """Returns a dictionary of valid classes and their references."""
