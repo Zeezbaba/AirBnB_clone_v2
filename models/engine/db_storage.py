@@ -14,6 +14,9 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 
+classes = {"Amenity": Amenity, "City": City,
+           "Place": Place, "Review": Review, "State": State, "User": User}
+
 
 class DBStorage:
     __engine = None
@@ -32,6 +35,7 @@ class DBStorage:
         if getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(bind=self.__engine)
 
+    """
     def all(self, cls=None):
 
         if cls:
@@ -49,6 +53,18 @@ class DBStorage:
                 key = '{}.{}'.format(type(obj).__name__, obj.id)
                 dictionary[key] = obj
             return dictionary
+    """
+
+    def all(self, cls=None):
+        """query on the current database session"""
+        new_dict = {}
+        for clss in classes:
+            if cls is None or cls is classes[clss] or cls is clss:
+                objs = self.__session.query(classes[clss]).all()
+                for obj in objs:
+                    key = obj.__class__.__name__ + '.' + obj.id
+                    new_dict[key] = obj
+        return (new_dict)
 
     def new(self, obj):
         """add the object to the current database
@@ -85,8 +101,8 @@ class DBStorage:
         Session = scoped_session(sess_factory)
         self.__session = Session
 
+    """
     def classes(self):
-        """Returns a dictionary of valid classes and their references."""
         from models.base_model import BaseModel
         from models.user import User
         from models.state import State
@@ -103,6 +119,7 @@ class DBStorage:
                    "Place": Place,
                    "Review": Review}
         return classes
+    """
 
     def close(self):
         """close the current session"""

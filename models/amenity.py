@@ -4,13 +4,18 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from os import getenv
 from sqlalchemy.orm import relationship
+import models
+import sqlalchemy
 
 
 class Amenity(BaseModel, Base):
-    """Updating amenities"""
-    __tablename__ = 'amenities'
-    name = Column(String(128), nullable=False)
+    """Updating Amenity """
     if getenv("HBNB_TYPE_STORAGE") == "db":
-        place_amenities = relationship('Place',
-                                       secondary='place_amenity',
-                                       back_populates='amenities')
+        __tablename__ = 'amenities'
+        name = Column(String(128), nullable=False)
+    else:
+        name = ""
+
+    def __init__(self, *args, **kwargs):
+        """initializes Amenity"""
+        super().__init__(*args, **kwargs)
